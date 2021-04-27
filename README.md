@@ -1,4 +1,8 @@
-### Scan7  
+# Scan7  
+
+<p align="center">
+  <img height="400px" src="https://github.com/bmarsh9/scan7/raw/main/images/scan_7.PNG?raw=true" alt="Logo"/>
+</p>
 
 #### The Problem  
 There is not a great solution in the Open-Source community for performing license, vulnerability and secret detection in a single platform. You end up having to resort to a bunch of shell scripts or purchasing a commercial tool.
