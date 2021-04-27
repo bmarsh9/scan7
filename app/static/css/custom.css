@@ -1,0 +1,129 @@
+.table thead th {
+    vertical-align: middle;
+    text-transform: capitalize !important;
+}
+
+.apexcharts-legend.apexcharts-align-center.position-left {
+  width:40%;
+}
+
+.container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl {
+  padding-left:1px !important;
+  padding-right:1px !important;
+}
+
+.underlineNav {
+  border-bottom: 2px solid #0061f2; 
+}
+
+.text-gray {
+  color:#959da5;
+}
+
+.badge-gray {
+  background-color:#d5d7d9;
+}
+
+.bg-light-soft {
+  background-color:#fafbfc;
+}
+
+.Counter {
+    display: inline-block;
+    min-width: 20px;
+    padding: 0 6px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    color:#1f2d41;
+    text-align: center;
+    background-color: #d5d7d973;
+    border: 1px solid transparent;
+    border-radius: 2em;
+}
+
+ul.pagination {
+  float:right;
+}
+
+button.dt-button.buttons-csv.buttons-html5,button.dt-button.buttons-collection.buttons-colvis {
+  color:#0061f2;
+  background:transparent;
+  border:1px solid lightgray;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color:#fafbfc !important;
+}
+
+.loader {
+  margin: auto;
+  width: 40px;
+  height: 40px;
+
+  border: solid 3px transparent;
+  border-top-color:  #666;
+  border-left-color: #666;
+  border-radius: 40px;
+
+  -webkit-animation: loader 500ms linear infinite;
+  -moz-animation:    loader 500ms linear infinite;
+  -ms-animation:     loader 500ms linear infinite;
+  -o-animation:      loader 500ms linear infinite;
+  animation:         loader 500ms linear infinite;
+}
+
+@-webkit-keyframes loader {
+  0%   { -webkit-transform: rotate(0deg);   transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-moz-keyframes loader {
+  0%   { -moz-transform: rotate(0deg);   transform: rotate(0deg); }
+  100% { -moz-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-o-keyframes loader {
+  0%   { -o-transform: rotate(0deg);   transform: rotate(0deg); }
+  100% { -o-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-ms-keyframes loader {
+  0%   { -ms-transform: rotate(0deg);   transform: rotate(0deg); }
+  100% { -ms-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@keyframes loader {
+  0%   { transform: rotate(0deg);   transform: rotate(0deg); }
+  100% { transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+pre code {
+    display: block;
+    line-height: 1.75;
+    padding: 1em 1.5em;
+    overflow-x: auto;
+}
+code {
+    background: rgba(230, 235, 237, 0.25);
+    border-radius: 0.375em;
+    border: solid 1px rgba(210, 215, 217, 0.75);
+    font-family: "Courier New", monospace;
+    font-size: 0.9em;
+    margin: 0 0.25em;
+    padding: 0.25em 0.65em;
+}
+
+.apexcharts-title-text {
+    font-family:"Metropolis", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+    font-size: 1.2rem !important;
+    font-weight: 500 !important;
+} 
+
+div.dt-button-collection {
+  position: inherit !important; 
+  overflow: visible !important; 
+  margin-top: 3px !important; 
+  max-height: 200px;
+  overflow-y: scroll !important;
+}

@@ -1,0 +1,36 @@
+{% macro repo_scans(scan,active,buttons) -%}
+    <section style="box-shadow:0 2px 5px rgb(0 0 0 / 10%)" class="bg-light-soft pt-4 mb-2">
+      <div class="container">
+        <div class="row mb-2">
+          <div class="col-lg-8">
+            <h3 class="text-primary"><i class="text-dark align-center mr-2" data-feather="box"></i><a href="{{url_for('main.repositories')}}">Repository</a> 
+                <span class="text-gray">/ <a href="{{url_for('main.view_repository',id=scan.repository_id)}}">{{scan.name}}</a> / {{active|capitalize}}</span>
+            </h3>
+          </div>
+          <div class="col-lg-4 text-right">
+            {%for button in buttons%}
+            <a class="btn btn-sm btn-outline-primary" href={{button[0]}} role="button"> <i class="text-primary mr-2" data-feather="{{button[2]}}"></i>{{button[1]|capitalize}}</a>
+            {%endfor%}
+          </div>
+        </div>
+        <div class="row mb-0">
+          <div class="col-lg-12">
+            <ul style="font-size:12px" class="nav">
+              <li class="nav-item {% if active == "summary"%}underlineNav{%endif%}">
+                <a class="nav-link text-{% if active == "summary"%}dark{%else%}gray{%endif%}" href="{{url_for('main.view_repository_summary_for_scan',id=scan.id)}}"><i class="text-{% if active == "summary"%}dark{%else%}gray{%endif%} mr-2" data-feather="pie-chart"></i>Summary<span class="badge Counter ml-2">1</span></a>
+              </li>
+              <li class="nav-item {% if active == "license"%}underlineNav{%endif%}">
+                <a class="nav-link text-{% if active == "license"%}dark{%else%}gray{%endif%}" href="{{url_for('main.view_repository_license_for_scan',id=scan.id)}}"><i class="text-{% if active == "license"%}dark{%else%}gray{%endif%} mr-2" data-feather="pen-tool"></i>License<span class="badge Counter ml-2">1</span></a>
+              </li>
+              <li class="nav-item {% if active == "secrets"%}underlineNav{%endif%}">
+                <a class="nav-link text-{% if active == "secrets"%}dark{%else%}gray{%endif%}" href="{{url_for('main.view_repository_secrets_for_scan',id=scan.id)}}"><i class="text-{% if active == "secrets"%}dark{%else%}gray{%endif%} mr-2" data-feather="key"></i>Secrets<span class="badge Counter ml-2">1</span></a>
+              </li>
+              <li class="nav-item {% if active == "vulns"%}underlineNav{%endif%}">
+                <a class="nav-link text-{% if active == "vulns"%}dark{%else%}gray{%endif%}" href="{{url_for('main.view_repository_vulns_for_scan',id=scan.id)}}"><i class="text-{% if active == "vulns"%}dark{%else%}gray{%endif%} mr-2" data-feather="alert-triangle"></i>Vulnerabilities<span class="badge Counter ml-2">1</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+{%- endmacro %}

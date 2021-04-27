@@ -1,0 +1,97 @@
+{% extends "template.html" %}
+{% block head %}
+{{ super() }}
+  {% import "helpers/src_macros.html" as macro %}
+  {{ macro.filehelper(select=True) }}
+  <style>
+    .chosen-container.chosen-with-drop .chosen-drop {
+      position: relative;
+    }
+  </style>
+{% endblock %}
+{% block content %}
+<section class="bg-white py-5 mb-10">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="d-flex align-items-center">
+                    <h4 class="mb-0"><a href="{{url_for('main.repositories')}}"><i class="text-success feather-lg mr-2" data-feather="arrow-left"></i></a>Add Repository</h4>
+                    <div class="badge badge-primary-soft badge-pill badge-marketing badge-sm text-primary ml-2"></div>
+                </div>
+            </div>
+            <div class="col-lg-7 text-right">
+                <a href="#"><i class="text-secondary-soft mr-3 feather-lg" data-feather="layers"></i></a>
+            </div>
+        </div>
+        <hr class="mb-4">
+        <!-- end row -->
+        <div class="row">
+            <!-- col -->
+            <div class="col-lg-12">
+                <div class="card mb-5">
+                    <div class="card-body">
+                      <h2 class="card-title mb-4 font-weight-bold">Repository</h2>
+                      <form method="POST" action="{{url_for('main.add_repository')}}">
+                        <div class="form-row">
+                          <div class="form-group col-md-5">
+                            <label class="font-weight-bold" for="name">Name</label>
+                            <input type="text" class="form-control" name="name" placeholder="Identify" required>
+                          </div>
+                          <div class="form-group col-md-7">
+                            <label class="font-weight-bold" for="url">URL</label>
+                            <input type="text" class="form-control" name="url" placeholder="URL" required>
+                          </div>
+                        </div>
+
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <label class="font-weight-bold" for="branch">Branch</label>
+                            <input type="text" class="form-control" name="branch" placeholder="Branch" required>
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label class="font-weight-bold" for="type">Type</label>
+                            <select name="type" class="form-control" id="type" required>
+                              <option value="github">GitHub</option>
+                              <option value="gitlab">GitLab</option>
+                              <option value="bitbucket">BitBucket</option>
+                            </select>
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label class="font-weight-bold" for="is_private">Private</label>
+                            <select name="is_private" class="form-control" id="is_private" required>
+                              <option value="1">True</option>
+                              <option value="0">False</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="form-row justify-content-end">
+                          <div class="form-group col-md-5">
+                            <label class="font-weight-bold" for="key">Key</label>
+                            <select name="key" data-placeholder="Search for Key" class="chosen-select form-control">
+                              <option value="">Select Key</option>
+                              {% for key in keys %}
+                              <option value="{{key.id}}">{{key.name|capitalize}}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Add</button>
+                      </form>
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+</section>
+{% endblock %}
+{% block extrajs %}
+  <script>
+    $(".chosen-select").chosen({
+      no_results_text: "Oops, nothing found!"
+    })
+  </script>
+{% endblock %}

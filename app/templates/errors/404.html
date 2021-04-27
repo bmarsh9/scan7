@@ -1,0 +1,27 @@
+{% extends "template.html" %}
+
+{% block remove_nav %}
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto mr-lg-5">
+        <li class="nav-item"><a class="nav-link" href="">404</a></li>
+    </ul>
+  </div>
+{% endblock %}
+
+{% block content %}
+    <section class="bg-white mb-10">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <div class="text-center mt-4">
+              <img class="img-fluid p-4" src="{{ url_for('static', filename='img/404-animal.svg') }}" alt="...">
+              <p class="lead">This requested URL was not found on this server.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
+
+{% block remove_footer%}
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "template.html" %}
+{% from "helpers/html_snippets.html" import pagination %}
+{% block head %}
+{{ super() }}
+<style>
+    a,a label {
+    cursor: pointer;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<section class="bg-white py-5 mb-10">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <h4 class="mb-0">
+                <a href="{{url_for('main.tasks')}}"><i class="text-success feather-lg mr-2" data-feather="arrow-left"></i></a>View Task
+                <div class="badge badge-primary-soft badge-pill badge-marketing badge-sm text-primary ml-2">{{task.name|capitalize}}</div>
+                {% if task.enabled %}
+                <div class="badge badge-success-soft badge-pill badge-marketing badge-sm text-success ml-2">Enabled</div>
+                {% else %}
+                <div class="badge badge-danger-soft badge-pill badge-marketing badge-sm text-danger ml-2">Disabled</div>
+                {% endif %}
+            </h4>
+        </div>
+        <hr class="mb-4">
+        <div class="row mb-5">
+            <div class="col-lg-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4 font-weight-bold">Settings</h2>
+                        <h6>Started (UTC): <span class="text-muted">{{task.pretty_dt(task.start_on or task.date_added)}}</span></h6>
+                        <h6>Last Executed (UTC): <span class="text-muted">{{task.pretty_dt(task.last_ran) or "Never"}}</span></h6>
+                        <h6>Every: <span class="text-muted">{{task.run_every or 1}} minutes</span></h6>
+                        <h6>Next Run: <span class="text-muted">{{task.get_next_run(humanize=True)|capitalize}}</span></h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4 font-weight-bold">Task Status</h2>
+                        <form method="POST" action="{{url_for('main.view_task',id=task.id)}}">
+                            <div class="form-row">
+                                <div class="form-group col-md-10">
+                                    <select name="active" id="active" class="form-control">
+                                        {% if task.enabled %}
+                                        <option value="1" selected>Enabled</option>
+                                        <option value="0">Disabled</option>
+                                        {% else %}
+                                        <option value="1">Enabled</option>
+                                        <option value="0" selected>Disabled</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-warning">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4 font-weight-bold">Run Interval<small class="ml-2 h6">(in min)</small></h2>
+                        <form method="POST" action="{{url_for('main.view_task',id=task.id)}}">
+                            <div class="form-row">
+                                <div class="form-group col-md-10">
+                                    <input type="number" name="interval" class="form-control" id="interval" placeholder="Change run interval" value="{{task.run_every}}">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-warning">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="log_row" class="row mb-5">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4 font-weight-bold">
+                            Task Logs
+                            <a onclick="addUrlParameter('sort', 'all')">
+                                {% if request.args.get('sort') != "error" %}{% set color1 = "primary" %}{% else %} {% set color1 = "secondary" %} {% endif %}
+                                <div class="badge badge-{{color1}}-soft badge-pill badge-sm text-{{color1}} ml-2">All Logs</div>
+                            </a>
+                            <a onclick="addUrlParameter('sort', 'error')">
+                                {% if request.args.get('sort') == "error" %}{% set color2 = "danger" %}{% else %} {% set color2 = "secondary" %} {% endif %}
+                                <div class="badge badge-{{color2}}-soft badge-pill badge-sm text-{{color2}} ml-2">Errors</div>
+                            </a>
+                            <div class="badge badge-warning-soft badge-pill badge-marketing badge-sm text-warning float-right">{{logs.items|length}}</div>
+                        </h2>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Message</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for log in logs.items %}
+                                <tr>
+                                    <th scope="row">{{log.id}}</th>
+                                    <td><div class="badge badge-light badge-pill badge-sm text-dark">{{log.date_pretty("date_added","3")}}</div></td>
+                                    {% if log.log_type in ["error","critical"] %}
+                                    {% set color="danger" %}
+                                    {% elif log.log_type == "warning" %}
+                                    {% set color="warning" %}
+                                    {% else %}
+                                    {% set color="success" %}
+                                    {% endif %}
+                                    <td>
+                                        <div class="badge badge-{{color}}-soft badge-pill badge-sm text-{{color}}">{{log.log_type|upper}}</div>
+                                    </td>
+                                    <td>{{log.message}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {{pagination('main.view_task',logs,_anchor="log_row",id=task.id,sort=request.args.get('sort'))}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block extrajs %}
+<script>
+    function addUrlParameter(name, value, reset=true) {
+      var searchParams = new URLSearchParams(window.location.search)
+      if (reset) {
+        var searchParams = new URLSearchParams();
+      }
+      searchParams.set(name, value)
+      window.location.search = searchParams.toString()
+    };
+</script>
+{% endblock %}

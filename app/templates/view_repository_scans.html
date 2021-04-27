@@ -1,0 +1,54 @@
+{% extends "template.html" %}
+{% from "helpers/html_snippets.html" import pagination %}
+{% from "helpers/repo_tabs.html" import repo_tabs %}
+
+{% block content %}
+{{repo_tabs(repo,"scans",buttons=[])}}
+<section class="bg-white py-4 mb-10">
+    <div class="container">
+        <div class="row">
+            <!-- col -->
+            <div class="col-lg-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4 font-weight-bold">Scans</h4>
+                        <table class="table text-center">
+                            <thead class="thead-white text-uppercase">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Added</th>
+                                    <th scope="col">View</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for scan in scans.items %}
+                                <tr>
+                                    <th scope="row">{{scan.id}}</th>
+                                    <td><div class="badge badge-light badge-pill badge-marketing badge-sm text-dark">{{scan.name|capitalize}}</div></td>
+                                    {% if scan.status == "complete" %}
+                                      <td><a href="#" data-toggle="tooltip" title="Completed"><i class="text-success" data-feather="check-circle"></i></a></td>
+                                    {% elif scan.status == "pending" %}
+                                      <td><a href="#" data-toggle="tooltip" title="In Progress"><i class="text-primary" data-feather="loader"></i></a></td>
+                                    {% elif scan.status == "failed" %}
+                                      <td><a href="#" data-toggle="tooltip" title="Failed"><i class="text-danger" data-feather="x-circle"></i></a></td>
+                                    {% elif scan.status == "new" %}
+                                      <td><a href="#" data-toggle="tooltip" title="New"><i class="text-light" data-feather="clock"></i></a></td>
+                                    {% endif %}
+                                    <td><div class="badge badge-light badge-pill badge-sm text-dark">{{scan.date_pretty("date_added","3")}}</div></td>
+                                    <td><a class="text-center" href="{{url_for('main.view_repository_summary_for_scan',id=scan.id)}}"><i class="text-success" data-feather="search"></i></a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {{pagination('main.view_repository',scans,id=repo.id)}}
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+</section>
+{% endblock %}

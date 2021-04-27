@@ -1,0 +1,54 @@
+app/lib/dependency_scan/odc-reports/*
+app/lib/gitleaks/results/*
+app/clone_output/*
+app/keys/*
+
+# py ext
+*.pyc
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+__pycache__
+.DS_Store
+
+# logs
+pip-log.txt
+*.log
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# SQLite databases
+*.sqlite
+
+# Virtual environment
+venv
+
+# Code Editor
+.vscode
+
+# Temp folder
+tmp

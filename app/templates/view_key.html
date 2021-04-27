@@ -1,0 +1,37 @@
+{% extends "template.html" %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<section class="bg-white py-5 mb-10">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="d-flex align-items-center">
+                    <h4 class="mb-0"><a href="{{url_for('main.keys')}}"><i class="text-success feather-lg mr-2" data-feather="arrow-left"></i></a>View Key</h4>
+                    <div class="badge badge-primary-soft badge-pill badge-marketing badge-sm text-primary ml-2"></div>
+                </div>
+            </div>
+            <div class="col-lg-7 text-right">
+                <a href="#"><i class="text-secondary-soft mr-3 feather-lg" data-feather="layers"></i></a>
+            </div>
+        </div>
+        <hr class="mb-4">
+        <!-- end row -->
+        <div class="row">
+            <!-- col -->
+            <div class="col-lg-12">
+                <div class="card mb-5">
+                    <div class="card-body">
+                      <h2 class="card-title mb-4 font-weight-bold">Keys</h2>
+                      <p>test access, view usage, tell if its overpriv, age of the key, repo's using it</p>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+</section>
+{% endblock %}

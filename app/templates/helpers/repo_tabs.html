@@ -1,0 +1,30 @@
+{% macro repo_tabs(repo,active,buttons) -%}
+    <section style="box-shadow:0 2px 5px rgb(0 0 0 / 10%)" class="bg-light-soft pt-4 mb-2">
+      <div class="container">
+        <div class="row mb-2">
+          <div class="col-lg-8">
+            <h3 class="text-primary"><i class="text-dark align-center mr-2" data-feather="box"></i><a href="{{url_for('main.repositories')}}">Repository</a> 
+                <span class="text-gray">/ <a href="{{url_for('main.view_repository',id=repo.id)}}">{{repo.name}}</a> / {{active|capitalize}}</span>
+            </h3>
+          </div>
+          <div class="col-lg-4 text-right">
+            {%for button in buttons%}
+            <a class="btn btn-sm btn-outline-primary" href={{button[0]}} role="button"> <i class="text-primary mr-2" data-feather="{{button[2]}}"></i>{{button[1]|capitalize}}</a>
+            {%endfor%}
+          </div>
+        </div>
+        <div class="row mb-0">
+          <div class="col-lg-12">
+            <ul style="font-size:12px" class="nav">
+              <li class="nav-item {% if active == "dashboard"%}underlineNav{%endif%}">
+                <a class="nav-link text-{% if active == "dashboard"%}dark{%else%}gray{%endif%}" href="{{url_for('main.view_repository',id=repo.id)}}"><i class="text-{% if active == "dashboard"%}dark{%else%}gray{%endif%} mr-2" data-feather="pie-chart"></i>Dashboard<span class="badge Counter ml-2">1</span></a>
+              </li>
+              <li class="nav-item {% if active == "scans"%}underlineNav{%endif%}">
+                <a class="nav-link text-{% if active == "scans"%}dark{%else%}gray{%endif%}" href="{{url_for('main.view_repository_scans',id=repo.id)}}"><i class="text-{% if active == "scans"%}dark{%else%}gray{%endif%} mr-2" data-feather="crosshair"></i>Scans<span class="badge Counter ml-2">1</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+{%- endmacro %}

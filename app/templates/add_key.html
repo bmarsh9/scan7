@@ -1,0 +1,50 @@
+{% extends "template.html" %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<section class="bg-white py-5 mb-10">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="d-flex align-items-center">
+                    <h4 class="mb-0"><a href="{{url_for('main.keys')}}"><i class="text-success feather-lg mr-2" data-feather="arrow-left"></i></a>Add Key</h4>
+                    <div class="badge badge-primary-soft badge-pill badge-marketing badge-sm text-primary ml-2"></div>
+                </div>
+            </div>
+            <div class="col-lg-7 text-right">
+                <a href="#"><i class="text-secondary-soft mr-3 feather-lg" data-feather="layers"></i></a>
+            </div>
+        </div>
+        <hr class="mb-4">
+        <!-- end row -->
+        <div class="row">
+            <!-- col -->
+            <div class="col-lg-12">
+                <div class="card mb-5">
+                    <div class="card-body">
+                      <h2 class="card-title mb-4 font-weight-bold">Keys</h2>
+                      <form method="POST" action="{{url_for('main.add_key')}}">
+                        <div class="form-row">
+                          <div class="form-group col-md-12">
+                            <label class="font-weight-bold" for="name">Name</label>
+                            <input type="text" class="form-control" name="name" placeholder="Identify the key">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-12">
+                            <label class="font-weight-bold" for="key">Private Key</label>
+                            <textarea name="key" class="form-control" placeholder="Insert private key" rows="6" required></textarea>
+                          </div>
+                        </div>
+                        <button type="submit" class="btn btn-success">Add</button>
+                      </form>
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+</section>
+{% endblock %}

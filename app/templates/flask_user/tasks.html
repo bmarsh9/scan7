@@ -1,0 +1,81 @@
+{% extends "template.html" %}
+{% from "helpers/html_snippets.html" import pagination %}
+{% block head %}
+{{ super() }}
+<style>
+    th {
+    text-align: center;
+    }
+    .table thead th {
+    vertical-align: middle;
+    text-transform: uppercase;
+    }
+    .table th, .table td {
+    text-align: center;      
+    }
+</style>
+{% endblock %}
+{% block content %}
+<section class="bg-white py-5 mb-10">
+    <div class="container">
+    <div class="d-flex align-items-center justify-content-between">
+        <h4 class="mb-0">
+            All Tasks
+            <div class="badge badge-primary-soft badge-pill badge-marketing badge-sm text-primary ml-2">Displaying all tasks</div>
+        </h4>
+    </div>
+    <hr class="mb-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h2 class="card-title mb-4 font-weight-bold">Background Tasks</h2>
+                    <table class="table">
+                        <thead class="thead-white">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Enabled</th>
+                                <th scope="col">Healthy</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Recent Errors</th>
+                                <th scope="col">Interval</th>
+                                <th scope="col">View</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in tasks.items %}
+                            {% set log_count = task.get_logs(log_type=["error","critical"],namespace="jobs",as_count=True,span=48,meta={"module":task.module}) %}
+                            <tr>
+                                <th scope="row">{{loop.index}}</th>
+                                <td>
+                                    <div class="badge badge-light badge-pill badge-marketing badge-sm text-dark">{{task.name|capitalize}}</div>
+                                </td>
+                                {% if task.enabled %}
+                                <td style="text-align:center"><i style="color:#00ac69" data-feather="check-circle"></i></td>
+                                {% else %}
+                                <td style="text-align:center"><i style="color:red" data-feather="x-circle"></i></td>
+                                {% endif %}
+                                {% if task.healthy %}
+                                <td style="text-align:center"><i style="color:#00ac69" data-feather="check-circle"></i></td>
+                                {% else %}
+                                <td style="text-align:center"><i style="color:red" data-feather="x-circle"></i></td>
+                                {% endif %}
+                                <td>{{task.description}}</td>
+                                {%if log_count%}{%set color="danger-soft"%}{%else%}{%set color="light"%}{%endif%}
+                                <td>
+                                    <div class="badge badge-{{color}} badge-pill badge-marketing badge-sm text-dark">{{log_count}}</div>
+                                </td>
+                                <td><div class="badge badge-light badge-pill badge-marketing badge-sm text-dark">{{task.run_every}} min</div></td>
+                                <td><a style="text-align:center" href="{{url_for('main.view_task',id=task.id)}}"><i class="text-success" data-feather="search"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {{pagination('main.tasks',tasks)}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

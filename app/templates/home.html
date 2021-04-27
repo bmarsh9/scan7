@@ -1,0 +1,98 @@
+{% extends "template.html" %}
+
+{% block before_head %}
+  {{ super() }}
+  {% import "helpers/src_macros.html" as macro %}
+  {{ macro.filehelper(datatables=True,apex=True) }}
+{% endblock %}
+
+{% block content %}
+      <section class="bg-white py-4 mb-10">
+          <div class="container">
+            <div class="row z-1 mt-4">
+                <div class="col-lg-4 mb-4">
+                    <a class="card text-decoration-none lift" href="/">
+                    <div class="card pricing"> <!-- h-100 -->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <div class="text-gray h4 text-left">Repositories</div>
+                                <div class="" style="font-size:2.5rem"><sup><i class="text-gray mr-1 text-primary" data-feather="eye"></i></sup>{{repo_count}}</div>
+                            </div>
+                        </div>
+                    </div></a>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <a class="card text-decoration-none lift" href="/">
+                    <div class="card pricing"> <!-- h-100 -->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <div class="text-gray h4 text-left">Recent Vulns</div>
+                                <div class="" style="font-size:2.5rem"><sup><i class="text-gray mr-1 text-danger" data-feather="alert-triangle"></i></sup>{{recent_vuln}}</div>
+                            </div>
+                        </div>
+                    </div></a>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <a class="card text-decoration-none lift" href="/">
+                    <div class="card pricing"> <!-- h-100 -->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <div class="text-gray h4 text-left">Recent Secrets</div>
+                                <div class="" style="font-size:2.5rem"><sup><i class="text-gray mr-1 text-success" data-feather="key"></i></sup>{{recent_secret}}</div>
+                            </div>
+                        </div>
+                    </div></a>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-7">
+                <div class="card mb-4">
+                  <div class="card-body p-3">
+                    <div class="h4" id="chartbar"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-5">
+                <div class="card mb-4">
+                  <div class="card-body p-3">
+                    <div class="h4" id="chartdonut"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-5">
+                <div class="card mb-4">
+                  <div class="card-body p-3">
+                    <div class="h4" id="chartdonut1"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-7">
+                <div class="card mb-4">
+                  <div class="card-body p-3">
+                    <div class="h4" id="chartdonut2"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </section>
+
+{% endblock %}
+
+{% block extrajs %}
+  <script>
+    var url = "{{url_for('api.get_apex_chart')}}?type=bar&horizontal=true&as_chartjs=true&groupby=short_name,count&model=file_license&title=Licenses Discovered"
+    apex_render("chartbar",url)
+    var url = "{{url_for('api.get_apex_chart')}}?type=donut&as_chartjs=true&groupby=category,count&model=file_license&title=Category Type"
+    apex_render("chartdonut",url)
+
+
+    var url = "{{url_for('api.get_apex_chart')}}?type=donut&as_chartjs=true&groupby=cvssv3_base_severity,count&model=file_vuln&title=Vuln Severity"
+    apex_render("chartdonut1",url)
+    var url = "{{url_for('api.get_apex_chart')}}?type=bar&horizontal=true&as_chartjs=true&groupby=cwe,count&model=file_vuln&title=Common Weakness"
+    apex_render("chartdonut2",url)
+  </script>
+{% endblock %}
+

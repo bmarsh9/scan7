@@ -1,0 +1,68 @@
+{% extends "template.html" %}
+{% from "helpers/html_snippets.html" import pagination %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<section class="bg-white py-5 mb-10">
+    <div class="container">
+    <div class="d-flex align-items-center justify-content-between">
+        <h4 class="mb-0">
+            All Users
+            <div class="badge badge-primary-soft badge-pill badge-marketing badge-sm text-primary ml-2">Displaying all users</div>
+        </h4>
+    </div>
+    <hr class="mb-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card mb-5">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="mr-2 text-dark">
+                        <h2>Users</h2>
+                    </div>
+                    <a href="{{url_for('user.invite_user')}}"><i class="text-success feather-lg" data-feather="user-plus"></i></a>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="thead-white">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Enabled</th>
+                                <th scope="col">Roles</th>
+                                <th scope="col">Change Roles</th>
+                                <th scope="col">Edit User</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users.items %}
+                            <tr>
+                                <th scope="row">{{user.id}}</th>
+                                <td>{{user.email}}</td>
+                                {% if user.active %}
+                                <td style="text-align:center"><a href="#" data-toggle="tooltip" title="Active"><i class="text-success" data-feather="check-circle"></i></a></td>
+                                {% else %}
+                                <td style="text-align:center"><a href="#" data-toggle="tooltip" title="Disabled"><i class="text-danger" data-feather="x-octagon"></i></a></td>
+                                {% endif %}
+                                <td>
+                                    {% for role in user.pretty_roles() %}
+                                    <div class="badge badge-primary-soft badge-pill badge-marketing badge-sm text-primary ml-1">{{role|capitalize}}</div>
+                                    {% endfor %}
+                                </td>
+                                {% if user.can_edit_roles %}
+                                <td><a style="text-align:center" href="{{url_for('main.edit_user_roles',id=user.id)}}"><i class="text-primary" data-feather="sliders"></i></a></td>
+                                {% else %}
+                                <td><i class="text-gray" data-feather="x-square"></i></td>
+                                {% endif %}
+                                <td><a style="text-align:center" href="{{url_for('user.edit_user_profile',id=user.id)}}"><i class="text-warning" data-feather="settings"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {{pagination('main.users',users)}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

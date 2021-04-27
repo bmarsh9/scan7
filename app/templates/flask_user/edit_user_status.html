@@ -1,0 +1,56 @@
+{% extends "template.html" %}
+
+{% block head %}
+    {{ super() }}
+    {% import "helpers/src_macros.html" as macro %}
+    {{ macro.filehelper(select=True) }}
+{% endblock %}
+
+{% block content %}
+    <section class="bg-white py-5 mb-10">
+        <div class="container">
+          <div class="d-flex align-items-center justify-content-between">
+            <h4 class="mb-0"><a href="{{url_for('main.users')}}"><i class="text-success feather-lg mr-2" data-feather="arrow-left"></i></a>Edit User Settings
+              <div class="badge badge-primary-soft badge-pill badge-marketing badge-sm text-primary ml-2">{{user.email}}</div>
+            </h4>
+          </div>
+          <hr class="mb-4">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                    <form method="POST" action="{{url_for('main.edit_user_settings',id=user.id)}}">
+                      <div class="form-row">
+                        {% if current_user.has_role(["admin"]) %}
+                        <div class="form-group col-md-3">
+                          <label class="font-weight-bold" for="active">Status</label>
+                          <select name="active" id="active" class="form-control">
+                            {% if user.active %}
+                              <option value="1" selected>Enabled</option>
+                              <option value="0">Disabled</option>
+                            {% else %}
+                              <option value="1">Enabled</option>
+                              <option value="0" selected>Disabled</option>
+                            {% endif %}
+                          </select>
+                        </div>
+                        {% endif %}
+                      </div>
+                      <button type="submit" class="btn btn-success">Save</button>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extrajs %}
+  <script>
+    $(".chosen-select").chosen({
+      no_results_text: "Oops, nothing found!"
+    })
+  </script>
+{% endblock %}
