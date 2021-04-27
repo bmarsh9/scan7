@@ -13,6 +13,14 @@ The current design is ideal for a Security Assurance team that wishes to run out
 + Not ideal to be placed in the CI/CD flow. There is not a API to start/stop commands but that is on the roadmap  
 + Not ideal if you need quick and fast results
 
+#### Getting Started  
+Unfortunately I have not got around to "Dockerizing" this project..  
+1.) Install postgresql server  
+2.) Install docker  
+3.) Clone this repo  
+4.) Run `pip3 install -r requirements.txt`  
+5.) Run `flask run --cert=adhoc -h 0.0.0.0 -p 443` (May have to install openssl for using Adhoc certs)
+
 #### Roadmap  
 + Support for CI/CD  
 + Customization for the different scan types  

@@ -32,7 +32,7 @@ def view_key(id):
         return redirect(url_for("main.keys"))
     return render_template("view_key.html",key=key)
 
-@main.route('/key/add', methods=['POST'])
+@main.route('/key/add', methods=['POST','GET'])
 @login_required
 def add_key():
     if request.method == "POST":
